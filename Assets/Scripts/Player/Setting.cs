@@ -12,8 +12,8 @@ public class Setting : MonoBehaviour
     {
         if (collision.collider.TryGetComponent(out Ball ball) && _player.CurrentState == State.Setting)
         {
-            Debug.Log("touch");
-            Debug.Log(_player.NumTouches);
+         //   Debug.Log("touch");
+         //   Debug.Log(_player.NumTouches);
             if (_player.CurrentState == State.Setting && _player.GameManager.TouchController.GetTeamTouch(_player.Team) >= 1)
             {
                 _ball = ball;
@@ -48,7 +48,7 @@ public class Setting : MonoBehaviour
             _ball.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             _ball.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(10, 4), ForceMode2D.Impulse);
             _ball = null;
-            Debug.Log("set");
+          //  Debug.Log("set");
         }
         else if (_ball != null && Input.GetKey(_leftButton))
         {

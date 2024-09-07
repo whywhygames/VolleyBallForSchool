@@ -33,7 +33,10 @@ public class Ball : MonoBehaviour
     {
         if (collision.collider.TryGetComponent(out Floor floor))
         {
-            _gameManager.ScoreController.AddPoints(Team.Left);
+            if (CurrentSide == Team.Right)
+                _gameManager.ScoreController.AddPoints(Team.Left);
+            else
+                _gameManager.ScoreController.AddPoints(Team.Right);
         }
     }
 }

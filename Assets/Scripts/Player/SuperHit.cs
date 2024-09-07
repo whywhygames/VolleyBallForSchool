@@ -10,6 +10,7 @@ public class SuperHit : MonoBehaviour
     [SerializeField] private Rigidbody2D _rigidbody2D;
     [SerializeField] private Transform _hand;
     [SerializeField] private Animator _animator;
+    [SerializeField] private int _hitSpeed;
     private Transform _target;
 
 
@@ -17,7 +18,8 @@ public class SuperHit : MonoBehaviour
     {
         Vector2 direction = _target.position - transform.position;
         _player.GameManager.CurrentBall.transform.parent = null;
-        _player.GameManager.CurrentBall.GetComponent<Rigidbody2D>().AddForce(direction.normalized*60, ForceMode2D.Impulse) ;
+        //  _player.GameManager.CurrentBall.GetComponent<Rigidbody2D>().AddForce(direction.normalized*60, ForceMode2D.Impulse) ;
+        _player.GameManager.CurrentBall.GetComponent<Rigidbody2D>().velocity = direction.normalized * _hitSpeed;
     }
 
     private IEnumerator Throw()
@@ -33,7 +35,7 @@ public class SuperHit : MonoBehaviour
         _player.GameManager.CurrentBall.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         _player.ChangeState(State.SuperHit);
         _animator.SetTrigger("SuperHit");
-     //   SuperHitSetup();
+      //  SuperHitSetup();
     }
     public void Innit(Transform target)
     {

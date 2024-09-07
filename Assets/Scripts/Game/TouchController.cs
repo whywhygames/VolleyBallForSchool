@@ -47,29 +47,35 @@ public class TouchController : MonoBehaviour
 
     public void CheckTeamTouch(PlayerController currentControl)
     {
-        if (TeamTouchRight > 3)
-        {
-            Time.timeScale = 0;
-            _scoreController.AddPoints(Team.Left);
-        }
-        if (TeamTouchRight >= 1)
-        {
-            _gameManager.RightTeam[0].ChangeState(State.Setting);
-            _gameManager.RightTeam[1].ChangeState(State.Setting);
-        }
-
-        if (TeamTouchLeft > 3)
-        {
-            Time.timeScale = 0;
-            _scoreController.AddPoints(Team.Right);
-        }
-        if (TeamTouchLeft >= 1)
-        {
-            _gameManager.LeftTeam[0].ChangeState(State.Setting);
-            _gameManager.LeftTeam[1].ChangeState(State.Setting);
-        }
-
+        Debug.Log(TeamTouchLeft);
         _touchPanel.AddLight();
+        if (_gameManager.BallSide == Team.Right)
+        {
+            if (TeamTouchRight > 3)
+            {
+                Time.timeScale = 0;
+                _scoreController.AddPoints(Team.Left);
+            }
+            if (TeamTouchRight >= 1)
+            {
+                _gameManager.RightTeam[0].ChangeState(State.Setting);
+                _gameManager.RightTeam[1].ChangeState(State.Setting);
+            }
+        }
+ 
+        else if (_gameManager.BallSide == Team.Left)
+        {
+            if (TeamTouchLeft > 3)
+            {
+                Time.timeScale = 0;
+                _scoreController.AddPoints(Team.Right);
+            }
+            if (TeamTouchLeft >= 1)
+            {
+                _gameManager.LeftTeam[0].ChangeState(State.Setting);
+                _gameManager.LeftTeam[1].ChangeState(State.Setting);
+            }
+        }
     }
 
     private void ResetTouches(List<PlayerController> controllers)

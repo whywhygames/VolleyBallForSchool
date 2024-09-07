@@ -3,16 +3,17 @@ using UnityEngine;
 
 public class ScoreController : MonoBehaviour
 {
-    [Header("Points:")]
+    [Header("Points UI:")]
     [SerializeField] private TMP_Text _leftPointsText;
     [SerializeField] private TMP_Text _rightPointsText;
 
-    [Header("UI:")]
+    [Header("Win UI:")]
     [SerializeField] private GameObject _winPanel;
     [SerializeField] private TMP_Text _winText;
 
     private int _rightPoints;
     private int _leftPoints;
+
     public void AddPoints(Team team)
     {
         if (team == Team.Right)
@@ -26,6 +27,7 @@ public class ScoreController : MonoBehaviour
             _leftPointsText.text = $"{_leftPoints}";
         }
     }
+
     public void Win()
     {
         if (_rightPoints >= 5)

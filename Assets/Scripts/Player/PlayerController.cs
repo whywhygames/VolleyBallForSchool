@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 _defaultScale;
     [SerializeField] private BoxCollider2D _collider;
     [SerializeField] private GameManager _gameManager;
+    [SerializeField] private Transform _aiLeftPoint;
+    [SerializeField] private Transform _aiRightPoint;
+    [SerializeField] private PlayerController _otherPlayer;
 
     [Header("Super Hit")]
     [SerializeField] private float _radius;
@@ -65,6 +68,25 @@ public class PlayerController : MonoBehaviour
     {
         MoveController();
         CheckBallHitSphere();
+        if(_controlled == false)
+        {
+            Debug.Log(1234);
+            float speed = 5;
+            if (Vector2.Distance(_otherPlayer.transform.position, _aiLeftPoint.transform.position) < 3)
+            {
+                Debug.Log("Left");
+
+                transform.position = Vector2.MoveTowards(transform.position, _aiRightPoint.transform.position, speed * Time.deltaTime);
+       
+            }
+            else if (Vector2.Distance(_otherPlayer.transform.position, _aiRightPoint.transform.position) < 3)
+            {
+                Debug.Log("Right");
+   
+                transform.position = Vector2.MoveTowards(transform.position, _aiLeftPoint.transform.position, speed * Time.deltaTime);
+                
+            }
+        }
     }
     private void FixedUpdate()
     {
@@ -104,7 +126,7 @@ public class PlayerController : MonoBehaviour
         {
             _rigidbody.velocity = new Vector2(0, _rigidbody.velocity.y);
             _spriteRenderer.color = _color;
-            //_spriteRenderer.transform.localScale = _lowScale;
+            _spriteRenderer.transform.localScale = _lowScale;
             _collider.enabled = false;
             // transform.position = new Vector2(transform.position.x, -3);
             StartCoroutine(MoveDown());
@@ -113,7 +135,7 @@ public class PlayerController : MonoBehaviour
         if(control == true)
         {
             _spriteRenderer.color = Color.white;
-            //_spriteRenderer.transform.localScale = _defaultScale;
+            _spriteRenderer.transform.localScale = _defaultScale;
             _collider.enabled = true;
             _rigidbody.bodyType = RigidbodyType2D.Dynamic;
         }
@@ -127,7 +149,7 @@ public class PlayerController : MonoBehaviour
         while (elapsedTime < time)
         {
             elapsedTime += Time.deltaTime;
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, -3), elapsedTime / time);
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, -4.1f), elapsedTime / time);
             yield return null;
         }
     }
@@ -136,6 +158,13 @@ public class PlayerController : MonoBehaviour
     {
         _numTouches++;
         Touched?.Invoke(this);
+    }
+
+    public void AiInit(Transform leftPoint, Transform rightPoint, PlayerController otherPlayer)
+    {
+        _aiLeftPoint = leftPoint;
+        _aiRightPoint = rightPoint;
+        _otherPlayer = otherPlayer;
     }
 
     public void ChangeState(State state)
@@ -218,7 +247,7 @@ public class PlayerController : MonoBehaviour
             _firstClickR = true;
             _diveClicksRight += 1;
             _firstRightTime = Time.time;
-            Debug.Log(22);
+          //  Debug.Log(22);
         }
         else if (Input.GetKeyDown(_rightButton) && _firstClickR == true)
         {
